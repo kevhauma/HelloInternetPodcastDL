@@ -1,17 +1,27 @@
 let fs = require('fs')
 let request = require('request')
 let axios = require('axios')
-var mkdirp = require('mkdirp')
-
-
+let mkdirp = require('mkdirp')
+let ffmetadata = require("ffmetadata");
+let alt_filenames = require("./alt_filenames.json")
 let errList = []
+let titleFile
+fs.readFile('./titles.txt', 'utf8', function (err, data) {
+    titleFile = data.replace(/\n/g, '').split(";")
+})
+
 mkdirp('HI', err => {
     if (err) console.log(err)
-    else DL(0)
+    else DL(1)
 });
 
 function DL(i) {
-    axios.get('http://traffic.libsyn.com/hellointernet/' + i + '.mp3')
+    let filename = i + ""
+
+    if (alt_filenames[i])
+        filename = alt_filenames[i]
+
+    axios.get('http://traffic.libsyn.com/hellointernet/' + filename + '.mp3')
         .then(res => {
             request
                 .get(res.request.res.responseUrl)
@@ -20,7 +30,7 @@ function DL(i) {
                     errList.push(i)
                     next(i)
                 })
-                .pipe(fs.createWriteStream('HI/HI' + i + '.mp3'))
+                .pipe(fs.createWriteStream('HI/HI' + i + ": " + titleFile[i] + '.mp3'))
                 .on('finish', () => {
                     console.log("succesfully downloaded episode " + i)
                     next(i)
