@@ -1,22 +1,21 @@
 let fs = require('fs')
-let request = require('request');
+let request = require('request')
 let axios = require('axios')
-var mkdirp = require('mkdirp');
+var mkdirp = require('mkdirp')
 
-
-// path exists unless there was an error
 
 let errList = []
-mkdirp('HI', function (err) {
-    DL(0)
+mkdirp('HI', err => {
+    if (err) console.log(err)
+    else DL(0)
 });
 
 function DL(i) {
     axios.get('http://traffic.libsyn.com/hellointernet/' + i + '.mp3')
-        .then(function (res) {
+        .then(res => {
             request
                 .get(res.request.res.responseUrl)
-                .on('error', function (err) {
+                .on('error', err => {
                     console.log("ERROR: episode " + i)
                     errList.push(i)
                     next(i)
@@ -38,12 +37,12 @@ function next(p) {
     if (p <= 101)
         DL(p)
     else {
-        let o = "please manually download episodes: " + errList.join(", ")
+        let o = "please manually download episodes:\n" + errList.join("\n ")
         console.log(o)
-        var stream = fs.createWriteStream("errorList.txt");
-        stream.once('open', function (fd) {
-            stream.write(o);
-            stream.end();
+        let stream = fs.createWriteStream("errorList.txt")
+        stream.once('open', fd => {
+            stream.write(o)
+            stream.end()
         })
     }
 }
