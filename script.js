@@ -32,5 +32,13 @@ function next(p) {
     p++
     if (p <= 101)
         DL(p)
-    else console.log("please manually download episodes: " + err.join(", "))
+    else {
+        let o = "please manually download episodes: " + err.join(", ")
+        console.log(o)
+        var stream = fs.createWriteStream("errorList.txt");
+        stream.once('open', function (fd) {
+            stream.write(o);
+            stream.end();
+        })
+    }
 }
