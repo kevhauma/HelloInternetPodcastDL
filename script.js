@@ -2,7 +2,7 @@ let fs = require('fs')
 let request = require('request');
 let axios = require('axios')
 
-let err = []
+let errList = []
 
 DL(0)
 
@@ -13,7 +13,7 @@ function DL(i) {
                 .get(res.request.res.responseUrl)
                 .on('error', function (err) {
                     console.log("ERROR: episode " + i)
-                    err.push(i)
+                    errList.push(i)
                     next(i)
                 })
                 .pipe(fs.createWriteStream('HI/HI' + i + '.mp3'))
@@ -23,7 +23,7 @@ function DL(i) {
                 })
         }).catch(err => {
             console.log("ERROR: episode " + i)
-            err.push(i)
+            errList.push(i)
             next(i)
         })
 }
