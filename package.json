@@ -1,0 +1,29 @@
+{
+    "name": "HelloInternetPodcastDL",
+    "version": "1.0.0",
+    "description": "download HI podcast",
+    "main": "script.js",
+    "dependencies": {
+        "axios": "^0.17.1",
+        "discord.js": "^11.1.0",
+        "request": "^2.85.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "kevhauma",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kevhauma/HelloInternetPodcastDL.git"
+    },
+    "keywords": [
+    "discord",
+    "bot"
+  ],
+    "bugs": {
+        "url": "https://github.com/kevhauma/HelloInternetPodcastDL/issues"
+    },
+    "homepage": "https://github.com/kevhauma/HelloInternetPodcastDL"
+}
