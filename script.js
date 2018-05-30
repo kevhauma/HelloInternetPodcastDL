@@ -2,10 +2,13 @@ let fs = require('fs')
 let request = require('request')
 let axios = require('axios')
 let mkdirp = require('mkdirp')
-let ffmetadata = require("ffmetadata");
 let alt_filenames = require("./alt_filenames.json")
 let errList = []
 let titleFile
+
+let episodeCount = 102
+
+
 fs.readFile('./titles.txt', 'utf8', function (err, data) {
     titleFile = data.replace(/\n/g, '').split(";")
 })
@@ -30,7 +33,7 @@ function DL(i) {
                     errList.push(i)
                     next(i)
                 })
-                .pipe(fs.createWriteStream('HI/HI' + i + ": " + titleFile[i] + '.mp3'))
+                .pipe(fs.createWriteStream('HI/HI' + i + '.mp3')) // ": " + titleFile[i - 1] + 
                 .on('finish', () => {
                     console.log("succesfully downloaded episode " + i)
                     next(i)
@@ -44,7 +47,7 @@ function DL(i) {
 
 function next(p) {
     p++
-    if (p <= 101)
+    if (p <= episodeCount)
         DL(p)
     else {
         let o = "please manually download episodes:\n" + errList.join("\n ")
